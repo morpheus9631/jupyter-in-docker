@@ -1,0 +1,38 @@
+services:
+  jupyter-nvidia:
+    build:
+      context: ./docker-files
+      dockerfile: Dockerfile-nvidia
+    image: jupyter-nvidia:cuda12.3.2
+    container_name: jupyter-nvidia
+    command: >
+      jupyter lab
+      --ServerApp.password='sha1:fabb08b6da75:8b06e77b1502b114b1a8860b79d22406a24a679b'
+      --ServerApp.token=''
+      --ServerApp.ip='0.0.0.0'
+      --ServerApp.port=8888
+      --ServerApp.open_browser=False    
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    restart: always
+    ports:
+      - '8888:8888'
+    volumes:
+      - /mnt/data/ai-data:/home/user/data
+      - /mnt/data/ai-models:/home/user/models
+      - /mnt/data/ai-processed:/home/user/processed
+      - /mnt/data/ai-pretrained:/home/user/pretrained
+      - /mnt/data/workspace:/home/user/workspace
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    networks:
+      - jupyter-network
+
+networks:
+  jupyter-network:
+    name: jupyter-network
+    driver: bridge

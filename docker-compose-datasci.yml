@@ -1,0 +1,32 @@
+services:
+  jupyter-datasci:
+    build:
+      context: ./docker-files
+      dockerfile: Dockerfile-datasci
+    image: jupyter-datasci:x86_64-python-3.11
+    container_name: jupyter-datasci
+    restart: always
+    runtime: nvidia
+    ports:
+      - '8888:8888'
+    volumes:
+      - /mnt/data/ai-data:/home/user/data
+      - /mnt/data/ai-models:/home/user/models
+      - /mnt/data/ai-processed:/home/user/processed
+      - /mnt/data/ai-pretrained:/home/user/pretrained
+      - /mnt/data/workspace:/home/user/workspace
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    networks:
+      - jupyter-network
+
+networks:
+  jupyter-network:
+    name: jupyter-network
+    driver: bridge

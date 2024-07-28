@@ -1,0 +1,32 @@
+FROM jupyter/datascience-notebook:x86_64-python-3.11
+
+ENV TZ=Asia/Taipei
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install PyTorch
+RUN pip3 install --pre torch torchaudio torchvision \
+    -f https://download.pytorch.org/whl/cu123/torch_stable.html
+
+# Change 'root' password
+USER root
+RUN echo 'root:1234' | chpasswd
+
+# Account: 'user'
+ARG USERNAME=user
+ARG USER_UID=1000
+ARG USER_GID=1000
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd  --uid $USER_UID --gid $USER_GID -m $USERNAME -s /bin/bash
+RUN echo "$USERNAME:1234" | chpasswd
+
+# Create work directories
+ENV USER=$USERNAME
+RUN bash -c 'mkdir -p /home/$USER/{workspace,data,models,processed,pretrained}'
+RUN chown -R $USERNAME:$USER /home/$USER
+
+# Setup workspace
+WORKDIR /home/$USER/workspace
+USER $USER
+
+# Start Jupyterlab
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--allow-root"]

@@ -1,0 +1,31 @@
+services:
+  jupyter:
+    image: tensorflow/tensorflow:latest-gpu-jupyter
+    container_name: tensorflow-jupyter
+    restart: always
+    runtime: nvidia
+    ports:
+      - '8888:8888'
+    volumes:
+      - /mnt/data/workspace:/tf/notebooks
+      - /mnt/data/ai-data:/tf/data
+      - /mnt/data/ai-models:/tf/models
+      - /mnt/data/ai-processed:/tf/processed
+      - /mnt/data/ai-pretrained:/tf/pretrained
+    environment:
+      - TF_ENABLE_ONEDNN_OPTS=0
+      - TF_FORCE_GPU_ALLOW_GROWTH=true
+      - TF_CPP_MIN_LOG_LEVEL=2
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    networks:
+      - jupyter-network
+
+networks:
+  jupyter-network:
+    name: jupyter-network
+    driver: bridge

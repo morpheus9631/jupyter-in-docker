@@ -1,0 +1,40 @@
+services:
+  jupyter-torch:
+    build:
+      context: ./docker-files
+      dockerfile: Dockerfile-torch
+    image: jupyter-torch:cuda12.3-python3.11
+    container_name: jupyter-torch
+    # Password: jupyter
+    command: >
+      jupyter lab
+      --ServerApp.password='sha1:fabb08b6da75:8b06e77b1502b114b1a8860b79d22406a24a679b' 
+      --ServerApp.token=''
+      --ServerApp.ip='0.0.0.0'
+      --ServerApp.port=8888
+      --ServerApp.open_browser=False
+    restart: always
+    runtime: nvidia
+    ports:
+      - '8888:8888'
+    volumes:
+      - /mnt/data/ai-data:/home/jovyan/data
+      - /mnt/data/ai-models:/home/jovyan/models
+      - /mnt/data/ai-processed:/home/jovyan/processed
+      - /mnt/data/ai-pretrained:/home/jovyan/pretrained
+      - /mnt/data/workspace/notebooks:/home/jovyan/work
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    networks:
+      - jupyter-network
+
+networks:
+  jupyter-network:
+    name: jupyter-network
+    driver: bridge

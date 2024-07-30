@@ -14,13 +14,13 @@ Comparison of Different Jupyter Image Building Methods
 ---
 ## Build Result
 
-|REPOSITORY     |TAG                |SIZE    |
-|:---------------:|:-------------------:|-------:|
-|jupyter-datasci  |cuda12.3-python3.11  |11GB    |
-|jupyter-nvidia   |cuda12.3-python3.11  |15.6GB  |
-|jupyter-tensor   |cuda12.3-python3.11  |8.49GB  |
-|jupyter-torch    |cuda12.3-python3.11  |8.72GB  |
+|REPOSITORY         |TAG                  |SIZE    |
+|:-----------------:|:-------------------:|-------:|
+|jupyter-nvidia     |cuda12.3-python3.11  |15.6GB  |
+|jupyter-datasci    |cuda12.3-python3.11  |11GB    |
+|jupyter-tensorflow |cuda12.3-python3.11  |8.49GB  |
+|jupyter-pytorch    |cuda12.3-python3.11  |8.72GB  |
 
 ---
 ## Recommendation
-&emsp;jupyter-tensor or jupyter-torch
+&emsp;jupyter-tensorflow or jupyter-pytorch

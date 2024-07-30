@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Create work directories
 RUN echo "$USER:joyvan" | chpasswd
-RUN bash -c 'mkdir -p /home/$USER/{data,models,processed,pretrained}'
+RUN bash -c 'mkdir -p /home/$USER/{data,models,output}'
 RUN bash -c 'chown -R $USER:users /home/$USER'
 
 # Setup workspace

@@ -1,8 +1,8 @@
 services:
-  jupyter-datasci:
+  jupyter:
     build:
-      context: ./docker-files
-      dockerfile: Dockerfile-datasci
+      context: .
+      dockerfile: docker-files/datascience.Dockerfile
     image: jupyter-datasci:cuda12.3-python3.11
     container_name: jupyter-datasci
     # Password: jupyter
@@ -20,9 +20,8 @@ services:
     volumes:
       - /mnt/data/ai-data:/home/jovyan/data
       - /mnt/data/ai-models:/home/jovyan/models
-      - /mnt/data/ai-processed:/home/jovyan/processed
-      - /mnt/data/ai-pretrained:/home/jovyan/pretrained
-      - /mnt/data/workspace/notebooks:/home/jovyan/work
+      - /mnt/data/ai-output:/home/jovyan/output
+      - /mnt/data/workspace:/home/jovyan/work
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility

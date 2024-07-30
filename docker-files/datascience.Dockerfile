@@ -15,7 +15,7 @@ RUN echo "$USER:jovyan" | chpasswd
 
 # Create work directories
 USER $USER
-RUN bash -c 'mkdir -p /home/$USER/{data,models,processed,pretrained}'
+RUN bash -c 'mkdir -p /home/$USER/{data,models,output}'
 WORKDIR /home/$USER
 
 # Start Jupyterlab

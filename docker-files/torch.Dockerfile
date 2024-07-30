@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 USER root
 
 RUN echo "$USER:jovyan" | chpasswd
-RUN bash -c 'mkdir -p /home/$USER/{data,models,processed,pretrained}'
+RUN bash -c 'mkdir -p /home/$USER/{data,models,output}'
 RUN bash -c 'chown -R $USER:users /home/$USER'
 
 # Setup workspace

@@ -44,7 +44,7 @@ RUN echo "$USERNAME:1234" | chpasswd
 
 # Create work directories
 ENV USER=$USERNAME
-RUN bash -c 'mkdir -p /home/$USER/{work,data,models,processed,pretrained}'
+RUN bash -c 'mkdir -p /home/$USER/{work,data,models,output}'
 RUN bash -c 'chown -R $USER:$USER /home/$USER'
 
 # Setup workspace

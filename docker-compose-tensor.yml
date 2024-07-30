@@ -1,10 +1,10 @@
 services:
-  jupyter-datasci:
+  jupyter:
     build:
       context: ./docker-files
-      dockerfile: Dockerfile-datasci
-    image: jupyter-datasci:cuda12.3-python3.11
-    container_name: jupyter-datasci
+      dockerfile: Dockerfile-tensor
+    image: jupyter-tensor:cuda12.3-python3.11
+    container_name: jupyter-tensor
     # Password: jupyter
     command: >
       jupyter lab
@@ -24,8 +24,9 @@ services:
       - /mnt/data/ai-pretrained:/home/jovyan/pretrained
       - /mnt/data/workspace/notebooks:/home/jovyan/work
     environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - TF_ENABLE_ONEDNN_OPTS=0
+      - TF_FORCE_GPU_ALLOW_GROWTH=true
+      - TF_CPP_MIN_LOG_LEVEL=2
     deploy:
       resources:
         reservations:

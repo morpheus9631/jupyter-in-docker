@@ -3,8 +3,9 @@ services:
     build:
       context: ./docker-files
       dockerfile: Dockerfile-nvidia
-    image: jupyter-nvidia:cuda12.3.2
+    image: jupyter-nvidia:cuda12.3-python3.11
     container_name: jupyter-nvidia
+    # Password: jupyter
     command: >
       jupyter lab
       --ServerApp.password='sha1:fabb08b6da75:8b06e77b1502b114b1a8860b79d22406a24a679b'
@@ -22,7 +23,7 @@ services:
       - /mnt/data/ai-models:/home/user/models
       - /mnt/data/ai-processed:/home/user/processed
       - /mnt/data/ai-pretrained:/home/user/pretrained
-      - /mnt/data/workspace:/home/user/workspace
+      - /mnt/data/workspace/notebooks:/home/user/work
     runtime: nvidia
     deploy:
       resources:

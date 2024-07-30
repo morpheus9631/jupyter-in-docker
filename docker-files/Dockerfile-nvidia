@@ -25,14 +25,16 @@ RUN curl -sS https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py && \
 RUN pip3 install --pre torch torchaudio torchvision \
     -f https://download.pytorch.org/whl/cu123/torch_stable.html
 
-# Install Jupyter
+# Install Jupyterlab
 RUN pip3 install jupyterlab
+
+# Install python requirement packages
+# COPY requirements.txt /tmp/requirements.txt
+# RUN  pip3 install -r /tmp/requirements.txt
 
 # Change 'root' password
 USER root
-RUN echo 'root:1234' | chpasswd
 
-# Account: 'user'
 ARG USERNAME=user
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -42,8 +44,8 @@ RUN echo "$USERNAME:1234" | chpasswd
 
 # Create work directories
 ENV USER=$USERNAME
-RUN bash -c 'mkdir -p /home/$USER/{workspace,data,models,processed,pretrained}'
-RUN chown -R $USER:$USER /home/$USER
+RUN bash -c 'mkdir -p /home/$USER/{work,data,models,processed,pretrained}'
+RUN bash -c 'chown -R $USER:$USER /home/$USER'
 
 # Setup workspace
 WORKDIR /home/$USER

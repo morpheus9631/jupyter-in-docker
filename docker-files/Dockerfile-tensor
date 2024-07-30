@@ -1,17 +1,15 @@
-FROM quay.io/jupyter/pytorch-notebook:cuda12-python-3.11
+FROM quay.io/jupyter/tensorflow-notebook:cuda-python-3.11
+
+USER root
 
 ARG USERNAME=jovyan
-ARG USER_UID=1000
-ARG USER_GID=1000
 
 ENV USER=$USERNAME
 ENV TZ=Asia/Taipei
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Change 'root' password
-USER root
-
-RUN echo "$USER:jovyan" | chpasswd
+# Create work directories
+RUN echo "$USER:joyvan" | chpasswd
 RUN bash -c 'mkdir -p /home/$USER/{data,models,processed,pretrained}'
 RUN bash -c 'chown -R $USER:users /home/$USER'
 
